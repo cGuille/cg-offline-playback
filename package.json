@@ -1,0 +1,18 @@
+{
+  "name": "cg-offline-playback",
+  "version": "1.0.0",
+  "description": "Provide Web Components to download and then play audio files offline.",
+  "keywords": [
+    "audio",
+    "offline",
+    "download",
+    "components",
+    "web components",
+    "custom elements"
+  ],
+  "author": "Guillaume Charmetant <cguille.dev@gmail.com>",
+  "files": ["src/*"],
+  "dependencies": {
+    "ajax-download": "github:cguille/ajax-download"
+  }
+}
