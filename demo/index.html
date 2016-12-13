@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="theme-color" content="#455A64">
+
+  <title>cg-offline-playback demo</title>
+</head>
+
+<body>
+  <section>
+    <h2>Standalone track sample</h2>
+
+    <h3>Code</h3>
+    <pre><code>
+&lt;cgop-track
+  key="first-track"
+  label="First track displayed label"
+  url="/demo/sample.mp3"&gt;
+&lt;/cgop-track&gt;
+    </code></pre>
+
+    <h3>Result</h3>
+    <cgop-track
+      key="first-track"
+      label="First track displayed label"
+      url="/demo/sample.mp3">
+    </cgop-track>
+  </section>
+
+  <section>
+    <h2>Playlist code sample</h2>
+    <p>If the track is in a playlist, only one of them is played at a time.</p>
+
+    <h3>Code</h3>
+    <pre><code>
+&lt;cgop-playlist&gt;
+  &lt;cgop-track
+    key="first-track"
+    label="First track displayed label"
+    url="/demo/sample.mp3">
+  &lt;/cgop-track&gt;
+
+  &lt;cgop-track
+    key="other-track"
+    label="Other track"
+    url="/demo/sample.mp3">
+  &lt;/cgop-track&gt;
+&lt;/cgop-playlist&gt;
+    </code></pre>
+
+    <h3>Result</h3>
+      <cgop-playlist>
+        <cgop-track
+          key="first-track"
+          label="First track displayed label"
+          url="/demo/sample.mp3">
+        </cgop-track>
+
+        <cgop-track
+          key="other-track"
+          label="Other track"
+          url="/demo/sample.mp3">
+        </cgop-track>
+      </cgop-playlist>
+  </section>
+
+  <script src="../node_modules/dom-event-emitter/src/event-emitter.js"></script>
+  <script src="../node_modules/ajax-download/src/ajax-download.js"></script>
+  <script src="../src/storage.js"></script>
+  <script src="../src/cgop-track.js"></script>
+  <script src="../src/cgop-playlist.js"></script>
+</body>
+</html>
