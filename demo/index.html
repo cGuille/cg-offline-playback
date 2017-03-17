@@ -8,6 +8,14 @@
   <title>cg-offline-playback demo</title>
 </head>
 
+<style type="text/css">
+  .cgop-download-confirm-popin {
+    background-color: gainsboro;
+    border-radius: 5px;
+    padding: 1em;
+  }
+</style>
+
 <body>
   <section>
     <h2>Standalone track sample</h2>
@@ -17,16 +25,39 @@
 &lt;cgop-track
   key="first-track"
   label="First track displayed label"
+  confirm-download-tpl="#confirm-download"
   url="/demo/sample.mp3"&gt;
 &lt;/cgop-track&gt;
+
+&lt;template id="confirm-download"&gt;
+  &lt;div&gt;
+    &lt;p&gt;
+      Do you want to start downloading "&lt;span class="track-label"&gt;&lt;/span&gt;" now?&lt;br /&gt;
+      You may want to be connected to a Wi-Fi network in order to do this.
+    &lt;/p&gt;
+    &lt;button class="confirm"&gt;Download&lt;/button&gt;
+    &lt;button class="cancel"&gt;I'll do it later&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
     </code></pre>
 
     <h3>Result</h3>
     <cgop-track
       key="first-track"
       label="First track displayed label"
+      confirm-download-tpl="#confirm-download"
       url="/demo/sample.mp3">
     </cgop-track>
+    <template id="confirm-download">
+      <div>
+        <p>
+          Do you want to start downloading "<span class="track-label"></span>" now?<br />
+          You may want to be connected to a Wi-Fi network in order to do this.
+        </p>
+        <button class="confirm">Download</button>
+        <button class="cancel">I'll do it later</button>
+      </div>
+    </template>
   </section>
 
   <section>
@@ -35,7 +66,7 @@
 
     <h3>Code</h3>
     <pre><code>
-&lt;cgop-playlist&gt;
+&lt;cgop-playlist confirm-download-tpl="#confirm-download"&gt;
   &lt;cgop-track
     key="first-track"
     label="First track displayed label"
@@ -48,10 +79,21 @@
     url="/demo/sample.mp3">
   &lt;/cgop-track&gt;
 &lt;/cgop-playlist&gt;
+
+&lt;template id="confirm-download"&gt;
+  &lt;div&gt;
+    &lt;p&gt;
+      Do you want to start downloading "&lt;span class="track-label"&gt;&lt;/span&gt;" now?&lt;br /&gt;
+      You may want to be connected to a Wi-Fi network in order to do this.
+    &lt;/p&gt;
+    &lt;button class="confirm"&gt;Download&lt;/button&gt;
+    &lt;button class="cancel"&gt;I'll do it later&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
     </code></pre>
 
     <h3>Result</h3>
-      <cgop-playlist>
+      <cgop-playlist confirm-download-tpl="#confirm-download">
         <cgop-track
           key="first-track"
           label="First track displayed label"

@@ -5,6 +5,8 @@
         throw new Error('this browser does not support custom elements');
     }
 
+    const CONFIRM_DOWNLOAD_TPL_ATTR_NAME = 'confirm-download-tpl';
+
     const PLAY_SYMBOL = '▶';
     const PAUSE_SYMBOL = '⏸';
 
@@ -161,8 +163,7 @@
                 return;
             }
 
-            const confirmMessage = getDownloadConfirmMessage.call(this);
-            confirmPopin(confirmMessage).then(confirmation => {
+            confirmPopin.call(this).then(confirmation => {
                 if (!confirmation || !this.pendingDownload) {
                     return;
                 }
@@ -257,17 +258,58 @@ button {
 `;
     }
 
-    function getDownloadConfirmMessage() {
-        return `Souhaitez-vous lancer le téléchargement de ce fichier ?
+    function buildDownloadConfirmMessageBox() {
+        const tplSelector = (
+            trimmedAttributeValue.call(this, CONFIRM_DOWNLOAD_TPL_ATTR_NAME) ||
+            trimmedAttributeValue.call(this.parentElement, CONFIRM_DOWNLOAD_TPL_ATTR_NAME)
+        );
 
-« ${this.label} »
+        if (!tplSelector) {
+            return null;
+        }
 
-Cette opération est déconseillée depuis les réseaux mobiles.`;
+        const messageBoxTpl = document.querySelector(tplSelector);
+        if (!messageBoxTpl) {
+            throw new Error(`could not find confirm download template with selector: "${tplSelector}"`);
+        }
+
+        const messageBoxFragment = document.importNode(messageBoxTpl.content, true);
+        Array.from(messageBoxFragment.querySelectorAll('.track-label')).forEach(elt => elt.textContent = this.label);
+
+        return messageBoxFragment.firstElementChild;
     }
 
-    function confirmPopin(message) {
+    function confirmPopin() {
+        let messageBox;
+
+        try {
+            messageBox = buildDownloadConfirmMessageBox.call(this);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+
+        if (!messageBox) {
+            return Promise.resolve(true);
+        }
+
         return new Promise(resolve => {
-            setTimeout(() => resolve(window.confirm(message)), 0);
+            messageBox.classList.add('cgop-download-confirm-popin');
+            messageBox.style.position = 'fixed';
+
+            messageBox.addEventListener('click', event => {
+                if (event.target.classList.contains('confirm')) {
+                    document.body.removeChild(messageBox);
+                    resolve(true);
+                }
+                if (event.target.classList.contains('cancel')) {
+                    document.body.removeChild(messageBox);
+                    resolve(false);
+                }
+            });
+
+            document.body.appendChild(messageBox);
+            messageBox.style.top = 'calc(50vh - ' + (messageBox.clientHeight / 2) + 'px)';
+            messageBox.style.left = 'calc(50vw - ' + (messageBox.clientWidth / 2) + 'px)';
         });
     }
 
